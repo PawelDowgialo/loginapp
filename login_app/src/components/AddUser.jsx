@@ -2,11 +2,12 @@ import React, { useState} from 'react';
 import Card from '../UI/Card';
 import classes from './AddUser.module.css' ;
 import Button from '../UI/Button';
-
+import ErrorModal from '../UI/ErrorModal' ;
 function AddUser() {
 
     const [name, setName] = useState('')
     const [age, setAge] = useState('')
+    const [errorModal, setErrorModal] = useState(null)
 
     function namedChangeHandler(event){
         setName(event.target.value)
@@ -19,12 +20,22 @@ function AddUser() {
 
     function addUserHandler(event){
         event.preventDefault();
-        console.log(name, age);
+        
+        if(+age < 1){
+            setErrorModal({
+                title:"Błędny wiek",
+                msg:"Wiek musi być > 0"
+            })
+        }
+
         setAge('');
         setName('');
     }
 
     return (
+    <>
+        {errorModal && <ErrorModal title={errorModal.title} 
+                                   msg={errorModal.msg} /> }
         <Card className={classes.input}>
         <form onSubmit={addUserHandler} >
             <label htmlFor="username">Username</label>
@@ -42,7 +53,10 @@ function AddUser() {
             <Button myType="submit"> Add user </Button>
         </form>
         </Card>
+        </>
     );
+    
+   
 }
 
 export default AddUser ;
