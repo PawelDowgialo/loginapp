@@ -31,11 +31,15 @@ function AddUser() {
         setAge('');
         setName('');
     }
-
+   const errorHandler = () => {
+    setErrorModal(null);
+   }
+   ;
     return (
     <>
         {errorModal && <ErrorModal title={errorModal.title} 
-                                   msg={errorModal.msg} /> }
+                                   msg={errorModal.msg}
+                                   removeError={errorHandler}/> }
         <Card className={classes.input}>
         <form onSubmit={addUserHandler} >
             <label htmlFor="username">Username</label>
